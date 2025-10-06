@@ -1,0 +1,48 @@
+import pytest
+from model.course_model import CourseModel
+
+class TestCourseModel:
+    def test_add_course_success(self, test_database, sample_course_data):
+        course_model = CourseModel(test_database)
+        course_model.add_course(
+            sample_course_data['course_code'],
+            sample_course_data['course_name'],
+            sample_course_data['lecturer'],
+            sample_course_data['credits']
+        )
+        
+        courses = course_model.get_all_courses()
+        assert len(courses) == 1
+        assert courses[0]['course_code'] == 'TEST101'
+
+    def test_add_duplicate_course_fails(self, test_database):
+        course_model = CourseModel(test_database)
+        course_model.add_course('CS101', 'Computer Science', 'Dr. Smith', 3)
+        
+        with pytest.raises(Exception):
+            course_model.add_course('CS101', 'Duplicate Course', 'Dr. Jones', 4)
+
+    def test_search_courses(self, test_database):
+        course_model = CourseModel(test_database)
+        course_model.add_course('CS101', 'Computer Science', 'Dr. Smith', 3)
+        
+        results = course_model.search_courses('Computer')
+        assert len(results) == 1
+        assert results[0]['course_name'] == 'Computer Science'
+
+    def test_delete_course(self, test_database):
+        course_model = CourseModel(test_database)
+        course_model.add_course('CS101', 'Computer Science', 'Dr. Smith', 3)
+        course_model.delete_course(1)
+        
+        courses = course_model.get_all_courses()
+        assert len(courses) == 0
+
+    def test_update_course(self, test_database):
+        course_model = CourseModel(test_database)
+        course_model.add_course('CS101', 'Computer Science', 'Dr. Smith', 3)
+        course_model.update_course(1, 'CS201', 'Advanced CS', 'Dr. Johnson', 4)
+        
+        courses = course_model.get_all_courses()
+        assert courses[0]['course_name'] == 'Advanced CS'
+        assert courses[0]['credits'] == 4
