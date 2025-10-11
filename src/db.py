@@ -1,7 +1,7 @@
 import sqlite3
-import os  # This line is kept for consistency, but can be removed if truly unused.
+import os  # This import is declared but not used in the code
+# DB_FILE = "database.db"  # Commented out code - dead code
 
-#  DB_FILE = "database.db"
 
 DATA_DIR = "data"
 DB_FILE = os.path.join(DATA_DIR, "database.db")

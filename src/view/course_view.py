@@ -85,6 +85,7 @@ class CourseView(BaseView):
         if not (code and name and lecturer and credits):
             messagebox.showerror("Error", "All fields are required.")
             return
+        
         try:
             self.model.add_course(code, name, lecturer, credits)
             messagebox.showinfo("Success", "Course added successfully.")

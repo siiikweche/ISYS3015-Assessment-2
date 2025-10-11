@@ -14,7 +14,7 @@ class CourseModel:
             credits INTEGER NOT NULL
         )
         """
-        self.db.execute(query)
+        self.db.execute(query) # No error handling for database operations
 
     # ------------------------------
     # CRUD OPERATIONS

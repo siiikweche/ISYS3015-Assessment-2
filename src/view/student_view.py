@@ -104,7 +104,7 @@ class StudentView(BaseView):
         last_name = self.entries['last_name'].get().strip()
         email = self.entries['email'].get().strip()
         course_name = self.entries['course'].get().strip()
-
+        # Missing: Email format validation, name character validation, etc.
         if not (student_no and first_name and last_name and email and course_name):
             messagebox.showerror("Error", "All fields are required.")
             return

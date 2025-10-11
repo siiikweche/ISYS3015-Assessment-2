@@ -101,9 +101,9 @@ class StudentModel:
         LEFT JOIN courses c ON s.course_id = c.id
         WHERE s.student_no LIKE ? OR s.first_name LIKE ? OR s.last_name LIKE ? OR s.email LIKE ?
         """
-        term_like = f"%{term}%"
+        term_like = f"%{term}%" #This is safe due to parameterization
         rows = self.db.fetchall(query, (term_like, term_like, term_like, term_like))
-        # Combine first and last name for the 'name' field in the view
+        
         return [
             {"id": r[0], "student_no": f"{r[1]}", "name": f"{r[2]} {r[3]}", "email": r[4], "course": r[5]}
             for r in rows
